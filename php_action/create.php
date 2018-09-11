@@ -3,12 +3,22 @@
 	session_start();
 	require_once 'db_connect.php';
 
+	function clear ($input){
+		global $connect;
+		// sql
+		$var = mysqli_escape_string($connect, $input);
+		//xss
+		$var = htmlspecialchars($var);
+
+		return $var;
+	}
+
 	if(isset($_POST['btn_cadastrar'])){
 
-		$nome = mysqli_escape_string($connect, $_POST['nome']);
-		$sobrenome = mysqli_escape_string($connect, $_POST['sobrenome']);
-		$email = mysqli_escape_string($connect, $_POST['email']);
-		$idade = mysqli_escape_string($connect, $_POST['idade']);
+		$nome = clear($_POST['nome']);
+		$sobrenome = clear($_POST['sobrenome']);
+		$email = clear($_POST['email']);
+		$idade = clear($_POST['idade']);
 
 		$sql = "insert into tbl_clientes (nome, sobrenome, email, idade) values ('$nome', '$sobrenome', '$email', '$idade')";
 
